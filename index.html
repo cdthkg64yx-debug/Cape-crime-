@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cape Town crime statistics dashboard — explore reported crime data by category and district." />
+  <title>Cape Town Crime Statistics</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header role="banner">
+    <div class="header-inner">
+      <h1>Cape Town Crime Statistics</h1>
+      <p class="subtitle">Reported crimes by category and police station district</p>
+    </div>
+  </header>
+
+  <nav aria-label="Page sections">
+    <ul>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#by-category">By Category</a></li>
+      <li><a href="#by-district">By District</a></li>
+      <li><a href="#trend">Trend</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" tabindex="-1">
+
+    <!-- Summary cards -->
+    <section id="summary" aria-labelledby="summary-heading">
+      <h2 id="summary-heading">2024 Overview</h2>
+      <ul class="card-grid" role="list">
+        <li class="card">
+          <span class="card-value" aria-label="114 582 total reported crimes">114&nbsp;582</span>
+          <span class="card-label">Total reported crimes</span>
+        </li>
+        <li class="card card--warn">
+          <span class="card-value" aria-label="4.2 percent increase year on year">+4.2%</span>
+          <span class="card-label">Year-on-year change</span>
+        </li>
+        <li class="card">
+          <span class="card-value" aria-label="6 most common crime type: contact crime">Contact crime</span>
+          <span class="card-label">Most prevalent category</span>
+        </li>
+        <li class="card">
+          <span class="card-value" aria-label="23 police station districts">23</span>
+          <span class="card-label">Police station districts</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- By category table -->
+    <section id="by-category" aria-labelledby="cat-heading">
+      <h2 id="cat-heading">Crimes by Category</h2>
+      <div class="table-wrapper" role="region" aria-label="Crimes by category table" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col" class="num">2023</th>
+              <th scope="col" class="num">2024</th>
+              <th scope="col" class="num">Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Contact crime</td>
+              <td class="num">38 412</td>
+              <td class="num">40 103</td>
+              <td class="num change--up" aria-label="increase">+4.4%</td>
+            </tr>
+            <tr>
+              <td>Property crime</td>
+              <td class="num">27 891</td>
+              <td class="num">28 560</td>
+              <td class="num change--up" aria-label="increase">+2.4%</td>
+            </tr>
+            <tr>
+              <td>Drug-related crime</td>
+              <td class="num">18 034</td>
+              <td class="num">17 621</td>
+              <td class="num change--down" aria-label="decrease">−2.3%</td>
+            </tr>
+            <tr>
+              <td>Sexual offences</td>
+              <td class="num">9 204</td>
+              <td class="num">9 811</td>
+              <td class="num change--up" aria-label="increase">+6.6%</td>
+            </tr>
+            <tr>
+              <td>Robbery</td>
+              <td class="num">11 340</td>
+              <td class="num">11 987</td>
+              <td class="num change--up" aria-label="increase">+5.7%</td>
+            </tr>
+            <tr>
+              <td>Driving under the influence</td>
+              <td class="num">5 120</td>
+              <td class="num">6 500</td>
+              <td class="num change--up" aria-label="increase">+26.9%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- By district table -->
+    <section id="by-district" aria-labelledby="dist-heading">
+      <h2 id="dist-heading">Crimes by District (Top 10)</h2>
+      <div class="table-wrapper" role="region" aria-label="Crimes by district table" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">District</th>
+              <th scope="col" class="num">Total 2024</th>
+              <th scope="col">Highest category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Mitchells Plain</td><td class="num">9 841</td><td>Contact crime</td></tr>
+            <tr><td>Khayelitsha</td><td class="num">9 203</td><td>Contact crime</td></tr>
+            <tr><td>Cape Town Central</td><td class="num">8 754</td><td>Property crime</td></tr>
+            <tr><td>Nyanga</td><td class="num">7 612</td><td>Contact crime</td></tr>
+            <tr><td>Gugulethu</td><td class="num">6 980</td><td>Drug-related crime</td></tr>
+            <tr><td>Bellville</td><td class="num">5 431</td><td>Property crime</td></tr>
+            <tr><td>Philippi</td><td class="num">5 107</td><td>Contact crime</td></tr>
+            <tr><td>Strand</td><td class="num">4 899</td><td>Robbery</td></tr>
+            <tr><td>Somerset West</td><td class="num">4 312</td><td>Property crime</td></tr>
+            <tr><td>Delft</td><td class="num">4 101</td><td>Drug-related crime</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Trend section -->
+    <section id="trend" aria-labelledby="trend-heading">
+      <h2 id="trend-heading">5-Year Trend</h2>
+      <figure aria-label="Bar chart showing total reported crimes 2020 to 2024">
+        <div class="bar-chart" role="img" aria-label="Total crimes: 2020: 98 200, 2021: 101 500, 2022: 107 300, 2023: 109 910, 2024: 114 582">
+          <ol class="bars" aria-hidden="true">
+            <li class="bar-item">
+              <div class="bar" style="--pct:86%"><span class="bar-val">98 200</span></div>
+              <span class="bar-year">2020</span>
+            </li>
+            <li class="bar-item">
+              <div class="bar" style="--pct:89%"><span class="bar-val">101 500</span></div>
+              <span class="bar-year">2021</span>
+            </li>
+            <li class="bar-item">
+              <div class="bar" style="--pct:94%"><span class="bar-val">107 300</span></div>
+              <span class="bar-year">2022</span>
+            </li>
+            <li class="bar-item">
+              <div class="bar" style="--pct:96%"><span class="bar-val">109 910</span></div>
+              <span class="bar-year">2023</span>
+            </li>
+            <li class="bar-item">
+              <div class="bar" style="--pct:100%"><span class="bar-val">114 582</span></div>
+              <span class="bar-year">2024</span>
+            </li>
+          </ol>
+        </div>
+        <figcaption>Total reported crimes in Cape Town, 2020–2024. Source: SAPS annual crime statistics.</figcaption>
+      </figure>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>Data sourced from the South African Police Service (SAPS) annual crime statistics. Last updated April 2025.</p>
+    <p>This site is for informational purposes only.</p>
+  </footer>
+</body>
+</html>

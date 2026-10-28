@@ -43,6 +43,7 @@ RUBRIC_PATH = os.path.join(HERE, "rubric.md")
 DEFAULT_AGENTS = 100
 QUICK_AGENTS = 16
 DEFAULT_WAVE = 10          # Claude Code runs at most 10 tool calls at once by default
+MODELS = ("opus", "sonnet", "haiku")   # sub-agent models. Never fable: the user does not pay for it
 ROOT = ".arena"
 LATEST = "LATEST"
 STATE_FILE = "arena.json"
@@ -267,7 +268,7 @@ def _has_output(path):
 
 # ---------------------------------------------------------------- the bracket
 
-def new_state(n, seed, data, run_dir, wave=DEFAULT_WAVE, has_baseline=False):
+def new_state(n, seed, data, run_dir, wave=DEFAULT_WAVE, has_baseline=False, model="opus"):
     run_dir = os.path.abspath(run_dir)
     ids = agent_ids(n)
     agents = {}
@@ -291,6 +292,7 @@ def new_state(n, seed, data, run_dir, wave=DEFAULT_WAVE, has_baseline=False):
         "agents_n": n,
         "cards_available": combo_count(data),
         "wave": wave,
+        "model": model,
         "dir": run_dir,
         "has_baseline": bool(has_baseline),
         "agents": agents,
@@ -901,7 +903,7 @@ def cmd_init(args):
     with open(RUBRIC_PATH, encoding="utf-8") as src, \
             open(os.path.join(d, "rubric.md"), "w", encoding="utf-8") as dst:
         dst.write(src.read())
-    state = new_state(n, seed, data, d, wave=args.wave, has_baseline=bool(baseline))
+    state = new_state(n, seed, data, d, wave=args.wave, has_baseline=bool(baseline), model=args.model)
     save_state(state)
     if default_dir:
         os.makedirs(ROOT, exist_ok=True)
@@ -914,6 +916,7 @@ def cmd_init(args):
     print("%d rounds (%s). %d sub-agent calls in %d waves of %d%s."
           % (t["rounds"], " -> ".join(str(s) for s in bracket_sizes(n)), t["calls"] + (1 if baseline else 0),
              t["waves"] + (1 if baseline else 0), args.wave, ", including the final check" if baseline else ""))
+    print("model: %s on every sub-agent call. Never fable." % args.model)
     print("next: %s" % _cmd("next"))
     return 0
 
@@ -932,7 +935,8 @@ def cmd_next(args):
     if phase in PHASES:
         print("NEXT: %s. %d of %d job(s) to run." % (phase, len(left), len(jobs)))
         print("  1. %s" % _cmd("prompts", phase))
-        print("  2. launch the jobs it lists, one wave of %d at a time" % state["wave"])
+        print("  2. launch the jobs it lists, one wave of %d at a time, model %s"
+              % (state["wave"], state.get("model", "opus")))
         print("  3. %s" % _cmd("next"))
     elif phase == "collect":
         print("NEXT: collect. Every verdict for this step is on disk.")
@@ -1180,6 +1184,8 @@ def build_parser():
     s.add_argument("--task", help="the task as a string, instead of --task-file")
     s.add_argument("--baseline-file", help="the answer the user was not satisfied with")
     s.add_argument("--wave", type=int, default=DEFAULT_WAVE, help="parallel sub-agents per wave (default 10)")
+    s.add_argument("--model", choices=MODELS, default="opus",
+                   help="model for every sub-agent (default opus). fable is never allowed")
     s.set_defaults(func=cmd_init)
 
     s = sub.add_parser("next", parents=[common], help="what to do now")

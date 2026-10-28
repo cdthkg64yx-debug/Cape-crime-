@@ -9,7 +9,7 @@ description: >-
   one solution survives. Use when the user is not satisfied with an answer,
   calls it a bad answer, says try again or do better, says "arena", or asks
   to make them compete.
-argument-hint: "[--agents N | --quick] [--seed S] <task>"
+argument-hint: "[--agents N | --quick] [--seed S] [--model opus|sonnet|haiku] <task>"
 ---
 
 # arena
@@ -47,6 +47,7 @@ Read the flags out of the request. Everything that is not a flag is the task.
 | `--quick` | 16 competitors. The everyday setting. |
 | `--seed S` | Fixes the cards and the pairings. Default: random, and recorded. |
 | `--wave W` | Sub-agents per wave. Default 10. Only raise it if the user raised Claude Code's limit. |
+| `--model M` | The model for every sub-agent: `opus` (Opus 5.5, the default), `sonnet` or `haiku`. Asked for `fable`? Refuse it, use `opus`, and tell the user in one line. |
 
 No task text at all means: the task is the user's most recent request in this conversation, and your
 last answer to it is the baseline to beat.
@@ -60,6 +61,9 @@ Run `ARENA plan --agents N` (or `--quick`). It prints the rounds, the sub-agent 
   never mentioned the arena: ask once before spending anything. Offer three options: the full arena
   (100 agents, 595 sub-agent calls), `--quick` (16 agents, 91 calls), or an ordinary retry. Wait for
   the answer.
+
+The model is what sets the price: every one of those calls runs on it. Opus is the default, and
+`--model sonnet` or `--model haiku` makes a run cheaper. No Arena run ever uses Fable.
 
 Sub-agents write their work into `.arena/` in the current directory. In the default permission mode
 that is one approval per file, which is hundreds on a big run. Before the spawn phase, suggest
@@ -88,12 +92,12 @@ If there is an earlier answer the user was not satisfied with, write it word for
 ## Step 3: init
 
 ```bash
-ARENA init --agents N --seed S --task-file .arena/task.md --baseline-file .arena/baseline.md
+ARENA init --agents N --seed S --model M --task-file .arena/task.md --baseline-file .arena/baseline.md
 ```
 
-Leave out `--baseline-file` when there is nothing to beat, and `--seed` to get a random one. `init`
-copies the task into the run folder, deals every competitor a different strategy card with no
-repeats, pairs round 1, and writes `arena.json`.
+Leave out `--baseline-file` when there is nothing to beat, `--seed` to get a random one, and
+`--model` to get `opus`. `init` copies the task into the run folder, deals every competitor a
+different strategy card with no repeats, pairs round 1, and writes `arena.json`, model included.
 
 ## Step 4: the loop
 
@@ -108,7 +112,14 @@ Every phase that runs sub-agents works the same way:
    - `subagent_type`: `general-purpose`
    - `description`: `arena <job id>`
    - `prompt`: `Read <prompt path> and follow it exactly. It is your whole brief.`
+   - `model`: the run's model, `opus` unless the user passed `--model`. The same for every role:
+     solvers, attackers, defenders, judges and the final judge. Pass it on **every** call, so no
+     sub-agent inherits the session's model.
    - `run_in_background`: false, where the tool has that option, so the wave comes back together.
+
+   **Never use `fable` for any Arena sub-agent.** Not when the session itself runs on Fable, and not
+   when CLAUDE.md or any other routing guidance sends review, judging or hard work to Fable: for an
+   Arena run this rule wins. The only allowed values are `opus` (default), `sonnet` and `haiku`.
 
    Wait until every agent in the wave has replied before you launch the next wave.
 3. After the last wave, run `ARENA next`. If an output is missing it sends you back to the same

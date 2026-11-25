@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IZHAI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap">
+<style>
+:root {
+  --bg: #faf6ef;
+  --header-bg: #f5efe5;
+  --announce-bg: #1f3d2b;
+  --announce-ink: #f3ead8;
+  --surface: #fbf8f2;
+  --tile: #ebe1d1;
+  --ink: #1d1915;
+  --muted: #6c6153;
+  --hairline: #ddd2c2;
+  --hairline-strong: #c9bba6;
+  --gold: #b08a3e;
+  --gold-text: #86672a;
+  --burgundy: #5a1a2b;
+  --forest: #1f3d2b;
+  --chip-active-bg: #f1e6cf;
+  --field-bg: #fffdf8;
+  --on-photo: #faf6ef;
+  --photo-scrim: rgba(22, 16, 12, 0.62);
+  --photo-scrim-soft: rgba(22, 16, 12, 0);
+  --sw-burgundy: #5a1a2b;
+  --sw-forest: #1f3d2b;
+  --sw-ivory: #efe6d2;
+  --sw-navy: #1f2a44;
+  --font-sans: "Jost", "Futura", "Century Gothic", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Cormorant Garamond", "EB Garamond", Garamond, "Times New Roman", Georgia, serif;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --track: 0.18em;
+  --header-h: 72px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1714;
+    --header-bg: #201c18;
+    --announce-bg: #14241a;
+    --announce-ink: #e6dcc6;
+    --surface: #221e1a;
+    --tile: #2c2621;
+    --ink: #efe7da;
+    --muted: #a89c8b;
+    --hairline: #3a332c;
+    --hairline-strong: #52483e;
+    --gold: #d2ae68;
+    --gold-text: #d9b874;
+    --burgundy: #d08d9e;
+    --forest: #8fb79d;
+    --chip-active-bg: #342c22;
+    --field-bg: #221e1a;
+    --on-photo: #faf6ef;
+    --photo-scrim: rgba(10, 8, 6, 0.7);
+    --photo-scrim-soft: rgba(10, 8, 6, 0);
+    --sw-burgundy: #7a2a3e;
+    --sw-forest: #2f5a40;
+    --sw-ivory: #e9dfca;
+    --sw-navy: #34446a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1714;
+  --header-bg: #201c18;
+  --announce-bg: #14241a;
+  --announce-ink: #e6dcc6;
+  --surface: #221e1a;
+  --tile: #2c2621;
+  --ink: #efe7da;
+  --muted: #a89c8b;
+  --hairline: #3a332c;
+  --hairline-strong: #52483e;
+  --gold: #d2ae68;
+  --gold-text: #d9b874;
+  --burgundy: #d08d9e;
+  --forest: #8fb79d;
+  --chip-active-bg: #342c22;
+  --field-bg: #221e1a;
+  --on-photo: #faf6ef;
+  --photo-scrim: rgba(10, 8, 6, 0.7);
+  --photo-scrim-soft: rgba(10, 8, 6, 0);
+  --sw-burgundy: #7a2a3e;
+  --sw-forest: #2f5a40;
+  --sw-ivory: #e9dfca;
+  --sw-navy: #34446a;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--header-bg);
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button, select, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.page {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.wrap { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(0px, 2.5vw, 40px); }
+.bleed {
+  margin-left: calc(-1 * var(--gutter-l));
+  margin-right: calc(-1 * var(--gutter-r));
+}
+.bleed-pad {
+  padding-left: var(--gutter-l);
+  padding-right: var(--gutter-r);
+}
+
+.caps, .nav a, .bar, .filter-title, .chip, .card-name, .btn, .tag, .details-title, .eyebrow, .crumbs {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+}
+
+/* Announcement */
+.announce {
+  background: var(--announce-bg);
+  color: var(--announce-ink);
+  text-align: center;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  padding-block: 9px;
+  padding-top: calc(9px + env(safe-area-inset-top, 0px));
+}
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--hairline);
+}
+.header-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  min-height: var(--header-h);
+  padding-block: 12px;
+}
+.wordmark {
+  justify-self: start;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.58em;
+  margin-right: -0.58em;
+  line-height: 1;
+}
+.nav { display: flex; gap: 34px; flex-wrap: wrap; justify-content: center; }
+.nav a {
+  font-size: 11px;
+  font-weight: 400;
+  text-decoration: none;
+  padding-block: 4px;
+  border-bottom: 1px solid transparent;
+}
+.nav a:hover { border-bottom-color: var(--hairline-strong); }
+.nav a[aria-current="page"] { border-bottom-color: var(--gold); }
+.tools { justify-self: end; display: flex; align-items: center; gap: 6px; }
+.icon-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.icon-btn:hover { border-color: var(--hairline); }
+.icon-btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.2; }
+.bag { cursor: default; }
+.bag:hover { border-color: transparent; }
+.bag-count {
+  position: absolute;
+  right: 3px;
+  bottom: 5px;
+  font-size: 9.5px;
+  font-weight: 400;
+  line-height: 1;
+}
+.search-row { border-top: 1px solid var(--hairline); padding-block: 12px; }
+.search-row .wrap { display: flex; align-items: center; gap: 12px; }
+.search-row input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--hairline-strong);
+  padding: 8px 2px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+.search-row input:focus-visible { outline: none; border-bottom-color: var(--gold); }
+.search-row .caps { font-size: 10.5px; color: var(--muted); }
+
+/* Views */
+main { flex: 1; }
+.view:focus { outline: none; }
+.view-head { text-align: center; padding-block: clamp(32px, 5vw, 56px) clamp(20px, 3vw, 32px); }
+.view-head h1 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(18px, 2.2vw, 24px);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  margin-right: -0.32em;
+}
+.view-head p {
+  margin: 14px auto 0;
+  max-width: 46ch;
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.4;
+  color: var(--muted);
+}
+.rule { width: 40px; height: 1px; background: var(--gold); margin: 18px auto 0; border: 0; }
+.section-title {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* Hero */
+.hero { position: relative; height: clamp(420px, 78vh, 760px); background: var(--tile); overflow: hidden; }
+.hero-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); height: 100%; }
+.hero-strip img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+.hero-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 120px 16px clamp(36px, 7vh, 72px);
+  background: linear-gradient(to top, var(--photo-scrim), var(--photo-scrim-soft));
+  text-align: center;
+  color: var(--on-photo);
+}
+.hero-overlay h1 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(13px, 1.6vw, 16px);
+  letter-spacing: 0.4em;
+  margin-right: -0.4em;
+  text-transform: uppercase;
+}
+.hero-overlay p {
+  margin: 10px 0 22px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(20px, 2.6vw, 30px);
+}
+.btn-outline-light {
+  display: inline-block;
+  color: var(--on-photo);
+  border: 1px solid var(--on-photo);
+  padding: 13px 34px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.btn-outline-light:hover { background: var(--on-photo); color: var(--ink); }
+.btn-outline-light:focus-visible { outline-color: var(--on-photo); }
+
+.home-intro { text-align: center; padding-block: clamp(44px, 7vw, 88px); }
+.home-intro p {
+  margin: 0 auto;
+  max-width: 44ch;
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2.4vw, 27px);
+  line-height: 1.38;
+}
+.home-intro em { color: var(--burgundy); }
+.featured { padding-bottom: clamp(48px, 7vw, 96px); }
+.featured .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.more { text-align: center; margin-top: 40px; }
+.link-caps {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 3px;
+}
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 2vw, 24px); padding-bottom: clamp(56px, 8vw, 104px); }
+.split a {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--tile);
+  text-decoration: none;
+  color: var(--on-photo);
+}
+.split img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; transition: transform 900ms cubic-bezier(.2, .6, .2, 1); }
+.split a:hover img { transform: scale(1.04); }
+.split-label {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 90px 20px 28px;
+  background: linear-gradient(to top, var(--photo-scrim), var(--photo-scrim-soft));
+  text-align: center;
+}
+.split-label strong { display: block; font-weight: 400; font-size: 14px; letter-spacing: 0.34em; text-transform: uppercase; margin-right: -0.34em; }
+.split-label span { display: block; margin-top: 8px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* Filter / sort bar */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding-block: 12px;
+  font-size: 11px;
+  font-weight: 400;
+}
+.bar-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.filter-toggle {
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.filter-toggle .sign { font-size: 14px; line-height: 1; width: 10px; text-align: center; }
+.count { color: var(--muted); }
+.sort { display: inline-flex; align-items: center; gap: 8px; position: relative; }
+.sort label { cursor: pointer; white-space: nowrap; }
+.sort select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 4px 18px 4px 2px;
+  font-size: 11px;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sort select:hover { border-bottom-color: var(--hairline-strong); }
+.sort select option { background: var(--surface); color: var(--ink); }
+.sort .chev { position: absolute; right: 2px; pointer-events: none; font-size: 14px; line-height: 1; transform: translateY(-1px); }
+
+/* Shop layout */
+.shop {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 48px);
+  padding-block: 32px 72px;
+}
+.shop[data-filters="closed"] { grid-template-columns: minmax(0, 1fr); }
+.shop[data-filters="closed"] .filters { display: none; }
+.filters { align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--header-h) + 24px); }
+.filter-group { border-bottom: 1px solid var(--hairline); }
+.filter-group summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 14px;
+}
+.filter-group summary::-webkit-details-marker { display: none; }
+.filter-title { font-size: 11px; font-weight: 400; }
+.filter-title .n { color: var(--gold-text); margin-left: 6px; }
+.summary-chev {
+  width: 7px; height: 7px;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 200ms ease;
+  flex: none;
+}
+.filter-group[open] .summary-chev { transform: rotate(225deg) translate(-2px, -2px); }
+.chips { display: flex; flex-direction: column; gap: 2px; padding-bottom: 14px; }
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-left: 1px solid transparent;
+  padding: 6px 8px;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  font-weight: 300;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 150ms ease, background-color 150ms ease;
+}
+.chip:hover { color: var(--ink); }
+.chip[aria-pressed="true"] { color: var(--ink); font-weight: 400; border-left-color: var(--gold); background: var(--chip-active-bg); }
+.chip .box { width: 10px; height: 10px; flex: none; border: 1px solid var(--hairline-strong); }
+.chip[aria-pressed="true"] .box { background: var(--gold); border-color: var(--gold); }
+.chip .sw { width: 11px; height: 11px; border-radius: 50%; flex: none; border: 1px solid var(--hairline-strong); }
+.sw-burgundy { background: var(--sw-burgundy); }
+.sw-forest-green { background: var(--sw-forest); }
+.sw-ivory { background: var(--sw-ivory); }
+.sw-navy { background: var(--sw-navy); }
+.clear {
+  margin-top: 18px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--hairline-strong);
+  padding: 2px 0;
+  font-size: 10.5px;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--muted);
+}
+.clear:hover { color: var(--ink); border-bottom-color: var(--gold); }
+
+/* Grid + cards */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 56px clamp(16px, 2.2vw, 32px);
+}
+.card a { display: block; text-decoration: none; color: inherit; }
+.card a:focus-visible { outline-offset: 6px; }
+.card-media { aspect-ratio: 2 / 3; background: var(--tile); overflow: hidden; }
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  transition: transform 900ms cubic-bezier(.2, .6, .2, 1);
+}
+.card a:hover .card-media img, .card a:focus-visible .card-media img { transform: scale(1.045); }
+.card-text { padding-top: 16px; text-align: center; }
+.card-name { margin: 0; font-size: 12px; font-weight: 400; }
+.card-sub { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; }
+.empty { grid-column: 1 / -1; text-align: center; padding: 64px 0; color: var(--muted); }
+.empty p { margin: 0 0 12px; font-family: var(--font-serif); font-size: 21px; color: var(--ink); }
+
+/* Product view */
+.crumbs { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-block: 22px; font-size: 10.5px; color: var(--muted); border-bottom: 1px solid var(--hairline); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { color: var(--ink); }
+.crumbs [aria-current] { color: var(--ink); }
+.product {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px);
+  padding-block: 36px 80px;
+  align-items: start;
+}
+.product-media { background: var(--tile); position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--header-h) + 20px); }
+.product-media img { width: 100%; height: auto; max-height: calc(100vh - var(--header-h) - 60px); object-fit: contain; margin-inline: auto; }
+.product-body { padding-top: 8px; max-width: 560px; }
+.eyebrow { margin: 0 0 14px; font-size: 10.5px; font-weight: 400; color: var(--gold-text); }
+.product-body h1 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: clamp(19px, 2.2vw, 25px);
+  line-height: 1.35;
+}
+.product-meta { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; }
+.tags { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { border: 1px solid var(--hairline-strong); padding: 5px 10px; font-size: 9.5px; font-weight: 400; }
+.story { margin-top: 26px; font-family: var(--font-serif); font-size: 19px; line-height: 1.55; font-weight: 400; }
+.story p { margin: 0 0 14px; }
+.story p:last-child { font-style: italic; color: var(--burgundy); }
+.details-title { margin: 24px 0 0; padding-top: 18px; border-top: 1px solid var(--hairline); font-size: 11px; font-weight: 400; }
+.details-list { list-style: none; margin: 12px 0 0; padding: 0; }
+.details-list li { position: relative; padding: 8px 0 8px 20px; font-size: 14px; border-bottom: 1px solid var(--hairline); }
+.details-list li::before { content: ""; position: absolute; left: 2px; top: 50%; width: 8px; height: 1px; background: var(--gold); }
+.product-nav { margin-top: 36px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--hairline-strong);
+  padding: 11px 18px;
+  font-size: 10.5px;
+  font-weight: 400;
+  cursor: pointer;
+  min-height: 44px;
+  text-decoration: none;
+}
+.btn:hover { border-color: var(--ink); }
+.btn-solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn-solid:hover { background: var(--forest); border-color: var(--forest); color: var(--bg); }
+.back { margin-top: 18px; }
+
+/* Our story */
+.story-page {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: center;
+  padding-block: 8px 88px;
+}
+.story-page figure { margin: 0; background: var(--tile); aspect-ratio: 4 / 5; overflow: hidden; }
+.story-page figure img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+.story-text { font-family: var(--font-serif); font-size: clamp(19px, 1.8vw, 22px); line-height: 1.6; max-width: 34em; }
+.story-text p { margin: 0 0 18px; }
+.story-text p:first-child::first-letter { font-size: 3.2em; float: left; line-height: 0.85; padding: 6px 10px 0 0; color: var(--burgundy); }
+.story-text .link-caps { font-family: var(--font-sans); }
+
+/* Contact */
+.contact { max-width: 560px; margin-inline: auto; padding-block: 8px 96px; }
+.field { display: block; margin-bottom: 22px; }
+.field span { display: block; font-size: 10.5px; font-weight: 400; letter-spacing: var(--track); text-transform: uppercase; margin-bottom: 8px; }
+.field input, .field textarea {
+  width: 100%;
+  background: var(--field-bg);
+  border: 1px solid var(--hairline-strong);
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 0;
+}
+.field textarea { min-height: 150px; resize: vertical; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 0; border-color: var(--gold); }
+.form-note { margin: 18px 0 0; font-size: 12.5px; color: var(--muted); }
+.thanks { text-align: center; padding: 40px 20px; border: 1px solid var(--hairline); }
+.thanks p { margin: 0 0 18px; font-family: var(--font-serif); font-size: 24px; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--hairline); padding-block: 32px calc(36px + env(safe-area-inset-bottom, 0px)); text-align: center; }
+.footer-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 28px; margin-bottom: 18px; }
+.footer-nav a { font-size: 10.5px; letter-spacing: var(--track); text-transform: uppercase; text-decoration: none; color: var(--ink); }
+.footer-nav a:hover { color: var(--gold-text); }
+.footer-line { margin: 0; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  :root { --header-h: 96px; }
+  .header-inner { grid-template-columns: 1fr auto; row-gap: 6px; padding-block: 10px; }
+  .nav { grid-column: 1 / -1; grid-row: 2; gap: 22px; }
+  .wordmark { font-size: 19px; }
+  .shop { grid-template-columns: minmax(0, 1fr); padding-block: 20px 56px; gap: 24px; }
+  .filters { position: static; }
+  .chips { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .chip { width: auto; border: 1px solid var(--hairline); padding: 8px 12px; min-height: 36px; }
+  .chip[aria-pressed="true"] { border-color: var(--gold); }
+  .chip .box { display: none; }
+  .product { grid-template-columns: minmax(0, 1fr); padding-block: 20px 64px; }
+  .product-media { position: static; }
+  .product-media img { max-height: 78vh; }
+  .story-page { grid-template-columns: minmax(0, 1fr); }
+  .story-page figure { aspect-ratio: 4 / 3; }
+}
+@media (max-width: 600px) {
+  .grid, .featured .grid { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+  .nav { gap: 16px; }
+  .nav a { font-size: 10px; letter-spacing: 0.15em; }
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .split a { aspect-ratio: 4 / 4; }
+  .sort label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .bar-left { gap: 14px; }
+  .hero { height: clamp(420px, 72vh, 620px); }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .card a:hover .card-media img, .card a:focus-visible .card-media img, .split a:hover img { transform: none; }
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="announce bleed bleed-pad" role="note">Welcome to IZHAI</div>
+
+  <header class="site-header bleed bleed-pad">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="#home" aria-label="IZHAI home">IZHAI</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#home" data-route="home">Home</a>
+        <a href="#catalog" data-route="catalog">Catalog</a>
+        <a href="#our-story" data-route="our-story">Our Story</a>
+        <a href="#contact" data-route="contact">Contact</a>
+      </nav>
+      <div class="tools">
+        <button class="icon-btn" id="searchToggle" type="button" aria-label="Search looks" aria-expanded="false" aria-controls="searchRow">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+        </button>
+        <span class="icon-btn bag" role="img" aria-label="Bag, 0 items">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+          <span class="bag-count" aria-hidden="true">0</span>
+        </span>
+      </div>
+    </div>
+    <div class="search-row" id="searchRow" hidden>
+      <div class="wrap">
+        <label class="sr-only" for="searchInput">Search looks by name</label>
+        <input id="searchInput" type="search" placeholder="Search looks" autocomplete="off">
+        <span class="caps" id="searchCount" aria-live="polite"></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="view" data-view="home" tabindex="-1" aria-labelledby="homeTitle">
+      <div class="hero bleed">
+        <div class="hero-strip" id="heroStrip"></div>
+        <div class="hero-overlay">
+          <h1 id="homeTitle">Spring / Summer '26</h1>
+          <p>Tradition, reimagined</p>
+          <a class="btn-outline-light" href="#catalog">Shop all</a>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="home-intro">
+          <p>Madras checks, heritage borders and wide-leg tailoring, brought together in <em>forest green, burgundy and ivory</em> for modern dressing.</p>
+          <hr class="rule">
+        </div>
+        <section class="featured" aria-labelledby="featuredTitle">
+          <h2 class="section-title" id="featuredTitle">Featured Looks</h2>
+          <ul class="grid" id="featuredGrid"></ul>
+          <p class="more"><a class="link-caps" href="#catalog">View the full catalog</a></p>
+        </section>
+        <section class="split" aria-label="Shop by category" id="splitBand"></section>
+      </div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="view wrap" data-view="catalog" tabindex="-1" aria-labelledby="catalogTitle" hidden>
+      <header class="view-head">
+        <h1 id="catalogTitle">Catalog</h1>
+        <p>Spring / Summer '26. Tradition reimagined through Madras checks, heritage borders and wide-leg tailoring.</p>
+      </header>
+      <div class="bar">
+        <div class="bar-left">
+          <button class="filter-toggle" id="filterToggle" type="button" aria-controls="filters" aria-expanded="true">
+            <span>Filter by</span><span class="sign" aria-hidden="true">&minus;</span>
+          </button>
+          <span class="count" id="count" aria-live="polite">5 Looks</span>
+        </div>
+        <div class="sort">
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="collection">Collection order</option>
+            <option value="name">Name A–Z</option>
+          </select>
+          <span class="chev" aria-hidden="true">&rsaquo;</span>
+        </div>
+      </div>
+      <div class="shop" id="shop" data-filters="open">
+        <aside class="filters" id="filters" aria-label="Filters"></aside>
+        <ul class="grid" id="grid" aria-label="Looks"></ul>
+      </div>
+    </section>
+
+    <!-- LOOK -->
+    <section class="view wrap" data-view="look" tabindex="-1" aria-labelledby="lookTitle" hidden>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="#home">Home</a><span aria-hidden="true">/</span>
+        <a href="#catalog">Catalog</a><span aria-hidden="true">/</span>
+        <span aria-current="page" id="crumbName"></span>
+      </nav>
+      <article class="product">
+        <div class="product-media"><img id="lookImg" src="images/look-1.jpg" alt=""></div>
+        <div class="product-body">
+          <p class="eyebrow" id="lookEyebrow"></p>
+          <h1 id="lookTitle"></h1>
+          <p class="product-meta" id="lookMeta"></p>
+          <ul class="tags" id="lookTags" aria-label="Style"></ul>
+          <div class="story" id="lookStory"></div>
+          <h2 class="details-title">Design Details</h2>
+          <ul class="details-list" id="lookDetails"></ul>
+          <div class="product-nav">
+            <a class="btn" id="prevLink" href="#">&lsaquo;&nbsp; Previous</a>
+            <a class="btn" id="nextLink" href="#">Next &nbsp;&rsaquo;</a>
+          </div>
+          <p class="back"><a class="link-caps" href="#catalog">Back to catalog</a></p>
+        </div>
+      </article>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="view wrap" data-view="our-story" tabindex="-1" aria-labelledby="storyTitle" hidden>
+      <header class="view-head">
+        <h1 id="storyTitle">Our Story</h1>
+        <hr class="rule">
+      </header>
+      <div class="story-page">
+        <figure><img src="images/look-4.jpg" alt="The Modern Classic Set: ivory shirt with a forest green colour-block panel over forest green wide-leg trousers."></figure>
+        <div class="story-text">
+          <p>IZHAI begins with the textiles of tradition. For Spring / Summer '26, the Madras check, heritage borders and tonal surface motifs are taken out of the archive and set within the clean lines of contemporary dressing.</p>
+          <p>Forest green, burgundy and ivory are placed against one another in colour-blocked panels, check pockets and side stripes, while gold-toned borders trace hems, cuffs and waistbands. Wide-leg trousers and relaxed silhouettes give every look an ease that belongs to everyday life.</p>
+          <p>From the everyday shirt to the floor-length drape, the intent stays the same: tradition reimagined for modern dressing, with garments that bring character to the wardrobe.</p>
+          <p><a class="link-caps" href="#catalog">Explore the collection</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="view wrap" data-view="contact" tabindex="-1" aria-labelledby="contactTitle" hidden>
+      <header class="view-head">
+        <h1 id="contactTitle">Contact</h1>
+        <p>Questions about a look or the collection? Leave a note below.</p>
+      </header>
+      <div class="contact">
+        <form id="contactForm" novalidate>
+          <label class="field"><span>Name</span><input name="name" type="text" autocomplete="name" required></label>
+          <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+          <label class="field"><span>Message</span><textarea name="message" required></textarea></label>
+          <button class="btn btn-solid" type="submit">Send message</button>
+          <p class="form-note" id="formNote">This form is a preview: nothing is sent anywhere yet.</p>
+        </form>
+        <div class="thanks" id="thanks" role="status" hidden>
+          <p>Thanks, we'll be in touch.</p>
+          <button class="btn" id="againBtn" type="button">Send another message</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#home">Home</a>
+      <a href="#catalog">Catalog</a>
+      <a href="#our-story">Our Story</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="footer-line">IZHAI &middot; Spring / Summer '26</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // Collection data. Add new looks by appending objects to this array.
+  var LOOKS = [
+    {
+      slug: "heritage-jacket-set",
+      name: "The Heritage Jacket Set",
+      image: "images/look-1.jpg",
+      alt: "Model in a forest green cropped jacket with Madras check patchwork and gold borders, over burgundy wide-leg trousers with gold hem borders.",
+      gender: "Menswear",
+      colours: ["Forest Green", "Burgundy"],
+      styles: ["Contemporary Indian", "Fusion Wear", "Statement Casual"],
+      story: [
+        "The Heritage Jacket Set brings together contemporary tailoring and traditional design elements in a distinctive silhouette. Featuring a forest green cropped jacket with contrasting Madras check patchwork, intricate gold-toned border detailing and a relaxed fit, this ensemble celebrates the beauty of textile contrasts.",
+        "Paired with fluid, wide-leg burgundy trousers featuring subtle heritage-inspired motifs and decorative borders, the look creates a balance between understated elegance and expressive design.",
+        "Designed for those who appreciate tradition reimagined through modern dressing."
+      ],
+      details: ["Forest green cropped jacket", "Contrasting Madras check patchwork", "Decorative gold-toned border detailing", "Relaxed-fit silhouette", "Wide-leg burgundy trousers", "Heritage-inspired surface motifs"]
+    },
+    {
+      slug: "everyday-heritage-set",
+      name: "The Everyday Heritage Set",
+      image: "images/look-2.jpg",
+      alt: "Model in an ivory short-sleeved shirt with a diagonal forest green panel and Madras check chest pocket, over navy wide-leg trousers with Madras check side panels.",
+      gender: "Menswear",
+      colours: ["Ivory", "Navy", "Forest Green"],
+      styles: ["Contemporary Casual", "Fusion Wear", "Everyday Statement"],
+      story: [
+        "The Everyday Heritage Set reinterprets classic menswear through thoughtful colour blocking and textile placement. The ivory short-sleeved shirt features a contrasting forest green panel running diagonally across the front, complemented by a Madras check chest pocket.",
+        "Paired with relaxed navy wide-leg trousers, the ensemble incorporates matching check detailing along the side panels, creating a cohesive visual connection between the upper and lower garments.",
+        "A versatile expression of contemporary Indian dressing, designed to bring character to everyday wardrobes."
+      ],
+      details: ["Ivory short-sleeved shirt", "Contrasting forest green panel", "Madras check chest pocket", "Relaxed navy wide-leg trousers", "Madras check side detailing", "Comfortable contemporary silhouette"]
+    },
+    {
+      slug: "burgundy-story-set",
+      name: "The Burgundy Story Set",
+      image: "images/look-3.jpg",
+      alt: "Model in a full-sleeved burgundy shirt with tonal motifs, a Madras check front panel and detailed cuffs, over ivory wide-leg trousers with a Madras check side panel.",
+      gender: "Menswear",
+      colours: ["Burgundy", "Ivory"],
+      styles: ["Fusion Menswear", "Contemporary Ethnic", "Statement Dressing"],
+      story: [
+        "The Burgundy Story Set explores the relationship between traditional surface patterns and contemporary menswear silhouettes. The burgundy shirt features subtle tonal heritage-inspired motifs, complemented by a contrasting Madras check panel across the front and intricate decorative detailing on the cuffs.",
+        "The shirt is paired with relaxed ivory wide-leg trousers, featuring coordinating check accents along the side and a clean, fluid silhouette.",
+        "The combination of deep burgundy and soft ivory creates a striking yet balanced look, making this ensemble a statement in modern heritage dressing."
+      ],
+      details: ["Full-sleeved burgundy shirt", "Tonal heritage-inspired surface motifs", "Madras check front panel", "Decorative cuff detailing", "Ivory wide-leg trousers", "Contrasting Madras check side panel"]
+    },
+    {
+      slug: "modern-classic-set",
+      name: "The Modern Classic Set",
+      image: "images/look-4.jpg",
+      alt: "Model in an ivory open-collar short-sleeved shirt with a forest green colour-block panel and Madras check chest pocket, over forest green wide-leg trousers with a Madras check side panel.",
+      gender: "Menswear",
+      colours: ["Ivory", "Forest Green"],
+      styles: ["Minimal Fusion", "Contemporary Casual", "Everyday Luxury"],
+      story: [
+        "The Modern Classic Set celebrates simplicity through thoughtful detailing and contemporary proportions. The ivory short-sleeved shirt features a relaxed open-collar silhouette, highlighted by a contrasting forest green colour-block panel and a Madras check chest pocket.",
+        "Complementing the shirt are relaxed forest green wide-leg trousers, detailed with a coordinating Madras check side panel that adds visual interest while maintaining the understated character of the ensemble.",
+        "Designed for effortless styling, this look brings together everyday functionality and the distinctive identity of IZHAI."
+      ],
+      details: ["Ivory short-sleeved shirt", "Relaxed open-collar neckline", "Forest green colour-block panel", "Madras check chest pocket", "Forest green wide-leg trousers", "Coordinating Madras check side detailing"]
+    },
+    {
+      slug: "regal-drape",
+      name: "The Regal Drape",
+      image: "images/look-5.jpg",
+      alt: "Model in a sleeveless high-halter floor-length gown colour-blocked in burgundy, forest green and ivory, with a gold-toned waistband and heritage borders, holding a Madras check envelope clutch.",
+      gender: "Womenswear",
+      colours: ["Burgundy", "Forest Green", "Ivory"],
+      styles: [],
+      subline: "Womenswear · Occasion",
+      story: [
+        "The Regal Drape is an expression of modern elegance rooted in traditional aesthetics. Featuring a high halter neckline and a beautifully flowing floor-length silhouette, this ensemble brings together rich burgundy, deep forest green and contrasting ivory panels.",
+        "The fitted bodice is complemented by a statement gold-toned waistband that defines the silhouette, while the colour-blocked skirt creates movement and visual depth. Traditional-inspired border detailing adds a distinctive heritage touch to the overall design.",
+        "Designed for occasions that call for individuality, elegance and a contemporary interpretation of Indian dressing."
+      ],
+      details: ["High halter neckline", "Sleeveless fitted bodice", "Burgundy, forest green and ivory colour blocking", "Gold-toned waistband"]
+    }
+  ];
+  var FEATURED = ["heritage-jacket-set", "burgundy-story-set", "regal-drape"];
+  var SPLIT = [
+    { gender: "Menswear", image: "images/look-2.jpg", alt: "Menswear: The Everyday Heritage Set." },
+    { gender: "Womenswear", image: "images/look-5.jpg", alt: "Womenswear: The Regal Drape." }
+  ];
+
+  var GROUPS = [
+    { key: "gender", label: "Gender", options: ["Menswear", "Womenswear"], get: function (l) { return [l.gender]; } },
+    { key: "colour", label: "Colour", options: ["Burgundy", "Forest Green", "Ivory", "Navy"], get: function (l) { return l.colours; }, swatch: true },
+    { key: "style", label: "Style", options: uniqueStyles(), get: function (l) { return l.styles; } }
+  ];
+  var VIEWS = ["home", "catalog", "our-story", "contact"];
+  var STORE_KEY = "izhai-ss26-filters";
+
+  var state = { gender: [], colour: [], style: [], sort: "collection" };
+  var query = "";
+  var visible = LOOKS.slice();
+  var firstRoute = true;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var grid = $("grid"), filtersEl = $("filters"), shop = $("shop"), countEl = $("count"),
+      sortEl = $("sort"), toggle = $("filterToggle"), searchInput = $("searchInput");
+
+  function uniqueStyles() {
+    var out = [];
+    LOOKS.forEach(function (l) { l.styles.forEach(function (s) { if (out.indexOf(s) < 0) out.push(s); }); });
+    return out;
+  }
+  function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-"); }
+  function subline(l) { return l.subline || l.styles.slice(0, 2).join(" · "); }
+  function plural(n) { return n + (n === 1 ? " Look" : " Looks"); }
+  function bySlug(s) { for (var i = 0; i < LOOKS.length; i++) if (LOOKS[i].slug === s) return LOOKS[i]; return null; }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      var s = JSON.parse(raw);
+      GROUPS.forEach(function (g) {
+        if (Array.isArray(s[g.key])) state[g.key] = s[g.key].filter(function (v) { return g.options.indexOf(v) >= 0; });
+      });
+      if (s.sort === "name" || s.sort === "collection") state.sort = s.sort;
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function card(l) {
+    var li = el("li", "card");
+    var a = el("a");
+    a.href = "#look-" + l.slug;
+    a.dataset.slug = l.slug;
+    var media = el("div", "card-media");
+    var img = el("img");
+    img.src = l.image;
+    img.alt = l.alt;
+    img.loading = "lazy";
+    img.decoding = "async";
+    media.appendChild(img);
+    var text = el("div", "card-text");
+    text.appendChild(el("h3", "card-name", l.name));
+    text.appendChild(el("p", "card-sub", subline(l)));
+    a.appendChild(media);
+    a.appendChild(text);
+    li.appendChild(a);
+    return li;
+  }
+
+  // Home
+  function buildHome() {
+    var strip = $("heroStrip");
+    LOOKS.slice(0, 5).forEach(function (l) {
+      var img = el("img");
+      img.src = l.image;
+      img.alt = "";
+      strip.appendChild(img);
+    });
+    var fg = $("featuredGrid");
+    FEATURED.forEach(function (s) { var l = bySlug(s); if (l) fg.appendChild(card(l)); });
+    var band = $("splitBand");
+    SPLIT.forEach(function (s) {
+      var n = LOOKS.filter(function (l) { return l.gender === s.gender; }).length;
+      var a = el("a");
+      a.href = "#catalog";
+      a.addEventListener("click", function () {
+        GROUPS.forEach(function (g) { state[g.key] = []; });
+        state.gender = [s.gender];
+        setQuery("");
+        update();
+      });
+      var img = el("img");
+      img.src = s.image;
+      img.alt = s.alt;
+      img.loading = "lazy";
+      a.appendChild(img);
+      var lab = el("span", "split-label");
+      lab.appendChild(el("strong", null, s.gender));
+      lab.appendChild(el("span", null, plural(n) + "  ›"));
+      a.appendChild(lab);
+      band.appendChild(a);
+    });
+  }
+
+  // Catalog
+  function buildFilters() {
+    var wide = window.matchMedia("(min-width: 861px)").matches;
+    GROUPS.forEach(function (g) {
+      var d = el("details", "filter-group");
+      d.open = wide || state[g.key].length > 0;
+      var sum = el("summary");
+      var t = el("span", "filter-title", g.label);
+      var n = el("span", "n");
+      n.dataset.count = g.key;
+      t.appendChild(n);
+      sum.appendChild(t);
+      sum.appendChild(el("span", "summary-chev"));
+      d.appendChild(sum);
+      var wrap = el("div", "chips");
+      wrap.setAttribute("role", "group");
+      wrap.setAttribute("aria-label", g.label);
+      g.options.forEach(function (opt) {
+        var b = el("button", "chip");
+        b.type = "button";
+        b.dataset.group = g.key;
+        b.dataset.value = opt;
+        var mark = el("span", g.swatch ? "sw sw-" + slugify(opt) : "box");
+        mark.setAttribute("aria-hidden", "true");
+        b.appendChild(mark);
+        b.appendChild(el("span", null, opt));
+        b.addEventListener("click", function () {
+          var arr = state[g.key], i = arr.indexOf(opt);
+          if (i >= 0) arr.splice(i, 1); else arr.push(opt);
+          update();
+        });
+        wrap.appendChild(b);
+      });
+      d.appendChild(wrap);
+      filtersEl.appendChild(d);
+    });
+    var clear = el("button", "clear", "Clear filters");
+    clear.type = "button";
+    clear.id = "clearBtn";
+    clear.addEventListener("click", clearAll);
+    filtersEl.appendChild(clear);
+  }
+  function clearAll() {
+    GROUPS.forEach(function (g) { state[g.key] = []; });
+    setQuery("");
+    update();
+  }
+  function setQuery(q) {
+    query = q;
+    if (searchInput.value !== q) searchInput.value = q;
+  }
+
+  function matches(l) {
+    if (query && l.name.toLowerCase().indexOf(query.toLowerCase().trim()) < 0) return false;
+    return GROUPS.every(function (g) {
+      var sel = state[g.key];
+      if (!sel.length) return true;
+      var vals = g.get(l);
+      return sel.some(function (v) { return vals.indexOf(v) >= 0; });
+    });
+  }
+
+  function renderGrid() {
+    visible = LOOKS.filter(matches);
+    if (state.sort === "name") {
+      visible.sort(function (a, b) {
+        return a.name.replace(/^The\s+/i, "").localeCompare(b.name.replace(/^The\s+/i, ""));
+      });
+    }
+    grid.textContent = "";
+    if (!visible.length) {
+      var li = el("li", "empty");
+      li.appendChild(el("p", null, query ? "No looks match “" + query + "”." : "No looks match these filters."));
+      var b = el("button", "clear", "Clear filters");
+      b.type = "button";
+      b.addEventListener("click", clearAll);
+      li.appendChild(b);
+      grid.appendChild(li);
+    }
+    visible.forEach(function (l) { grid.appendChild(card(l)); });
+    countEl.textContent = plural(visible.length) + (query ? " · “" + query + "”" : "");
+    $("searchCount").textContent = query ? plural(visible.length) : "";
+  }
+
+  function syncControls() {
+    filtersEl.querySelectorAll(".chip").forEach(function (b) {
+      b.setAttribute("aria-pressed", state[b.dataset.group].indexOf(b.dataset.value) >= 0 ? "true" : "false");
+    });
+    filtersEl.querySelectorAll("[data-count]").forEach(function (n) {
+      var c = state[n.dataset.count].length;
+      n.textContent = c ? "(" + c + ")" : "";
+      if (c) n.closest("details").open = true;
+    });
+    var any = query || GROUPS.some(function (g) { return state[g.key].length; });
+    $("clearBtn").hidden = !any;
+    sortEl.value = state.sort;
+  }
+
+  function update() {
+    syncControls();
+    renderGrid();
+    save();
+  }
+
+  function setFiltersOpen(open) {
+    shop.dataset.filters = open ? "open" : "closed";
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.querySelector(".sign").textContent = open ? "−" : "+";
+  }
+
+  // Look view
+  function renderLook(l) {
+    var i = LOOKS.indexOf(l);
+    var list = visible.indexOf(l) >= 0 ? visible : LOOKS;
+    var pos = list.indexOf(l);
+    $("lookImg").src = l.image;
+    $("lookImg").alt = l.alt;
+    $("crumbName").textContent = l.name;
+    $("lookEyebrow").textContent = "Look " + String(i + 1).padStart(2, "0") + " / " + String(LOOKS.length).padStart(2, "0");
+    $("lookTitle").textContent = l.name;
+    $("lookMeta").textContent = l.gender + " · " + l.colours.join(", ");
+    var tags = $("lookTags");
+    tags.textContent = "";
+    tags.hidden = !l.styles.length;
+    l.styles.forEach(function (s) { tags.appendChild(el("li", "tag", s)); });
+    var story = $("lookStory");
+    story.textContent = "";
+    l.story.forEach(function (p) { story.appendChild(el("p", null, p)); });
+    var dl = $("lookDetails");
+    dl.textContent = "";
+    l.details.forEach(function (d) { dl.appendChild(el("li", null, d)); });
+    var single = list.length < 2;
+    var prev = list[(pos - 1 + list.length) % list.length], next = list[(pos + 1) % list.length];
+    $("prevLink").hidden = single;
+    $("nextLink").hidden = single;
+    $("prevLink").href = "#look-" + prev.slug;
+    $("nextLink").href = "#look-" + next.slug;
+    $("prevLink").setAttribute("aria-label", "Previous look: " + prev.name);
+    $("nextLink").setAttribute("aria-label", "Next look: " + next.name);
+  }
+
+  // Router (plain #name hashes only)
+  function show(name) {
+    document.querySelectorAll("[data-view]").forEach(function (v) { v.hidden = v.dataset.view !== name; });
+    var navName = name === "look" ? "catalog" : name;
+    document.querySelectorAll(".nav a[data-route]").forEach(function (a) {
+      if (a.dataset.route === navName) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    if (!firstRoute) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      var v = document.querySelector('[data-view="' + name + '"]');
+      if (v && !(document.activeElement === searchInput)) v.focus({ preventScroll: true });
+    }
+    firstRoute = false;
+  }
+  function route() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    if (h.indexOf("look-") === 0) {
+      var l = bySlug(h.slice(5));
+      if (l) { renderLook(l); show("look"); return; }
+    }
+    show(VIEWS.indexOf(h) >= 0 ? h : "home");
+  }
+
+  // Search
+  var searchToggle = $("searchToggle"), searchRow = $("searchRow");
+  function setSearchOpen(open) {
+    searchRow.hidden = !open;
+    searchToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) searchInput.focus();
+  }
+  searchToggle.addEventListener("click", function () { setSearchOpen(searchRow.hidden); });
+  searchInput.addEventListener("input", function () {
+    query = searchInput.value;
+    update();
+    if (location.hash !== "#catalog" && query) location.hash = "#catalog";
+  });
+  searchInput.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { setSearchOpen(false); searchToggle.focus(); }
+    if (e.key === "Enter") { e.preventDefault(); if (location.hash !== "#catalog") location.hash = "#catalog"; }
+  });
+
+  // Contact
+  var form = $("contactForm");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    form.hidden = true;
+    $("thanks").hidden = false;
+    $("againBtn").focus();
+  });
+  $("againBtn").addEventListener("click", function () {
+    form.reset();
+    form.hidden = false;
+    $("thanks").hidden = true;
+    form.querySelector("input").focus();
+  });
+
+  sortEl.addEventListener("change", function () { state.sort = sortEl.value; update(); });
+  toggle.addEventListener("click", function () { setFiltersOpen(shop.dataset.filters !== "open"); });
+  window.addEventListener("hashchange", route);
+
+  load();
+  buildHome();
+  buildFilters();
+  setFiltersOpen(window.matchMedia("(min-width: 861px)").matches);
+  update();
+  route();
+})();
+</script>
+
+</body>
+</html>
